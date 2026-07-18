@@ -36,3 +36,4 @@ schemes:
       config: Debug
     test:
       config: Debug
+      
