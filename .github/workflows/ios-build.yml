@@ -1,11 +1,4 @@
-- name: Build iOS App
-      run: |
-        xcodebuild -scheme MAPSIOS \
-                   -configuration Debug \
-                   -sdk iphonesimulator \
-                   CODE_SIGNING_ALLOWED=NO \
-                   CODE_SIGNING_REQUIRED=NO \
-                   clean build
+name: iOS Build
 
 on:
   push:
@@ -29,8 +22,7 @@ jobs:
 
     - name: Build iOS App
       run: |
-        xcodebuild -project MAPSIOS.xcodeproj \
-                   -scheme MAPSIOS \
+        xcodebuild -scheme MAPSIOS \
                    -configuration Debug \
                    -sdk iphonesimulator \
                    CODE_SIGNING_ALLOWED=NO \
