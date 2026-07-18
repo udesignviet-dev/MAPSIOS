@@ -24,8 +24,11 @@ jobs:
 
       - name: Build App
         run: |
-          xcodebuild -project MAPSIOS.xcodeproj \
-                     -scheme MAPSIOS \
+          PROJECT_NAME=$(basename *.xcodeproj)
+          SCHEME_NAME=$(xcodebuild -list -project "$PROJECT_NAME" | awk '/Schemes:/{flag=1;next}/^$/{flag=0}flag' | sed 's/^[[:space:]]*//' | head -n 1)
+          
+          xcodebuild -project "$PROJECT_NAME" \
+                     -scheme "$SCHEME_NAME" \
                      -sdk iphoneos \
                      -configuration Release \
                      CODE_SIGNING_ALLOWED=NO
