@@ -1,4 +1,12 @@
-name: iOS Build
+- name: Build iOS App
+  run: |
+    xcodebuild \
+      -project MAPSIOS.xcodeproj \
+      -scheme MAPSIOS \
+      -configuration Debug \
+      -sdk iphonesimulator \
+      CODE_SIGNING_ALLOWED=NO \
+      clean build
 
 on:
   push:
