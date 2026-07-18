@@ -1,34 +1,38 @@
-name: iOS build
+name: MyAwesomeApp
+options:
+  bundleIdPrefix: com.yourcompany
 
-on:
-  push:
-    branches: [ "main" ]
-  pull_request:
-    branches: [ "main" ]
-  workflow_dispatch:
+targets:
+  MyAwesomeApp:
+    type: application
+    platform: iOS
+    deploymentTarget: "15.0"
+    sources:
+      - path: MyAwesomeApp
+    settings:
+      base:
+        # Cấu hình giúp tối ưu bộ nhớ khi build trên CI (tránh lỗi OOM)
+        SWIFT_COMPILATION_MODE: incremental
+        SWIFT_OPTIMIZATION_LEVEL: -Onone
+        CODE_SIGNING_ALLOWED: NO
+        CODE_SIGNING_REQUIRED: NO
+      configs:
+        Debug:
+          SWIFT_ACTIVE_COMPILATION_CONDITIONS: DEBUG
+        Release:
+          SWIFT_COMPILATION_MODE: wholemodule
+          SWIFT_OPTIMIZATION_LEVEL: -O
 
-jobs:
-  build:
-    name: Build iOS App
-    runs-on: macos-latest
-
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v4
-
-      - name: Install XcodeGen
-        run: brew install xcodegen
-
-      - name: Generate Xcode Project
-        run: xcodegen generate
-
-      - name: Build App
-        run: |
-          PROJECT_NAME=$(basename *.xcodeproj)
-          SCHEME_NAME=$(xcodebuild -list -project "$PROJECT_NAME" | awk '/Schemes:/{flag=1;next}/^$/{flag=0}flag' | sed 's/^[[:space:]]*//' | head -n 1)
-          
-          xcodebuild -project "$PROJECT_NAME" \
-                     -scheme "$SCHEME_NAME" \
-                     -sdk iphoneos \
-                     -configuration Release \
-                     CODE_SIGNING_ALLOWED=NO
+schemes:
+  MyAwesomeApp:
+    build:
+      targets:
+        MyAwesomeApp: [run, test, profile, analyze]
+    run:
+      config: Debug
+    profile:
+      config: Release
+    analyze:
+      config: Debug
+    test:
+      config: Debug
