@@ -1,4 +1,12 @@
-name: iOS Build
+name: MyAwesomeApp
+options:
+  bundleIdPrefix: com.yourcompany
+  # Thêm dòng này để ép định dạng về Xcode 15.0 thay vì tự động lấy bản mới nhất
+  xcodeVersion: "15.0" 
+
+targets:
+  MyAwesomeApp:
+    type: application
 
 on:
   push:
