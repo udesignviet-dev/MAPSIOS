@@ -1,12 +1,4 @@
-name: MyAwesomeApp
-options:
-  bundleIdPrefix: com.yourcompany
-  # Thêm dòng này để ép định dạng về Xcode 15.0 thay vì tự động lấy bản mới nhất
-  xcodeVersion: "15.0" 
-
-targets:
-  MyAwesomeApp:
-    type: application
+name: iOS Build
 
 on:
   push:
@@ -33,7 +25,7 @@ jobs:
 
     - name: Build iOS App
       run: |
-        xcodebuild -scheme MyAwesomeApp \
+        xcodebuild -scheme MAPSIOS \
                    -configuration Debug \
                    -sdk iphonesimulator \
                    CODE_SIGNING_ALLOWED=NO \
